@@ -1,0 +1,14 @@
+{
+  "name": "@web-resource-monitor/core",
+  "main": "./dist/index.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js",
+      "import": "./dist/index.esm.js"
+    },
+    "./min": {
+      "require": "./dist/index.min.js"
+    }
+  }
+}
