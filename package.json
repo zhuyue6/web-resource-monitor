@@ -1,7 +1,7 @@
 {
   "name": "web-resource-monitor",
   "version": "1.0.0",
-  "description": "Web resource loading monitoring, callback, reporting, etc",
+  "description": "Web resource loading monitoring, callback, reporting, etc, 前端监控资源加载上报",
   "packageManager": "pnpm@7.32.0",
   "lint-staged": {
     "*.{ts,tsx,js,jsx,vue}": [
@@ -17,6 +17,7 @@
     "lint-staged": "lint-staged --quiet",
     "dev": "node scripts/dev.js",
     "build": "node scripts/build.js",
+    "release": "node scripts/release.js",
     "build:plugins": "node scripts/build.js plugins"
   },
   "repository": {

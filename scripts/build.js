@@ -1,28 +1,10 @@
-import { spawn } from 'child_process'
 import { readdirSync } from 'node:fs'
 import inquirer from 'inquirer'
 import inquirerSearchList from 'inquirer-search-list'
 import process from 'node:process'
-
+import { compile } from './common'
 inquirer.registerPrompt('search-list', inquirerSearchList)
 
-function compile(name) {
-  const cmd = process.platform === 'win32' ? 'npx.cmd' : 'npx'
-  spawn(
-    cmd,
-    [
-      'rollup',
-      '-c',
-      `../../rollup.config.js`,
-      '--environment',
-      `PACKAGENAME:${name}`,
-    ],
-    {
-      cwd: `packages/${name}`,
-      stdio: [0, 1, 2],
-    }
-  )
-}
 
 function buildPlugins() {
   const packages = readdirSync('packages')

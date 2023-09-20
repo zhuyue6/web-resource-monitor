@@ -1,7 +1,3 @@
-## 
-Web resource loading monitoring, callback, reporting, etc  
-前端监控资源加载上报
-
 ## Getting Started
 
 ### Install

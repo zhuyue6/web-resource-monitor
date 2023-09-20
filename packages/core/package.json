@@ -1,6 +1,8 @@
 {
-  "name": "@web-resource-monitor/core",
+  "name": "web-resource-monitor",
   "main": "./dist/index.js",
+  "description": "Web resource loading monitoring, callback, reporting, etc, 前端监控资源加载上报",
+  "version": "1.0.0",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -10,5 +12,20 @@
     "./min": {
       "require": "./dist/index.min.js"
     }
+  },
+  "bugs": {
+    "url": "https://github.com/zhuyue6/web-resource-monitor.git/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+http://github.com/zhuyue6/web-resource-monitor.git"
+  },
+  "files": [
+    "dist",
+    "package.json",
+    "README.md"
+  ],
+  "publishConfig": {
+    "name": "web-resource-monitor"
   }
 }
