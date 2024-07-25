@@ -3,5 +3,3 @@ dist/
 test/
 .turbo
 .idea
-auto-imports.d.ts
-components.d.ts

@@ -8,7 +8,7 @@ import fs from 'fs-extra'
 import process from 'node:process'
 
 function getPlugins(dts = false, terser = false) {
-  const tsconfig = fs.readJSONSync('../../tsconfig.json')
+  const tsconfig = fs.readJSONSync('./tsconfig.json')
   let plugins = [
     rollupCommonjs(),
     rollupJson(),
@@ -32,9 +32,10 @@ function getPlugins(dts = false, terser = false) {
   return plugins
 }
 
+const input = `./packages/${process.env.PACKAGENAME}/src/index.ts`
 export default [
   {
-    input: 'src/index.ts',
+    input,
     output: [
       {
         file: `dist/index.esm.js`,
@@ -48,7 +49,7 @@ export default [
     plugins: getPlugins(),
   },
   {
-    input: 'src/index.ts',
+    input,
     output: [
       {
         file: `dist/index.d.ts`,
@@ -58,7 +59,7 @@ export default [
     plugins: getPlugins(true),
   },
   {
-    input: 'src/index.ts',
+    input,
     output: [
       {
         file: `dist/index.min.js`,

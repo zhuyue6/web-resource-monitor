@@ -1,27 +1,13 @@
 import { readdirSync } from 'node:fs'
+import { resolve } from 'node:path'
 import inquirer from 'inquirer'
 import inquirerSearchList from 'inquirer-search-list'
-import process from 'node:process'
-import { compile } from './common'
+import { compile } from './common.js'
+
 inquirer.registerPrompt('search-list', inquirerSearchList)
 
-
-function buildPlugins() {
-  const packages = readdirSync('packages')
-  for (const buildPackage of packages) {
-    compile(buildPackage)
-  }
-}
-
 async function main() {
-  if (process.argv.length >= 4) {
-    return compileApp(process.argv[2], process.argv[3])
-  }
-  if (process.argv[2] === 'plugins') {
-    return buildPlugins()
-  }
-
-  const packageDirs = readdirSync('packages')
+  const packageDirs = readdirSync(resolve('packages'))
   const packages = await inquirer.prompt([
     {
       type: 'search-list',
@@ -30,10 +16,11 @@ async function main() {
       choices: ['all', ...packageDirs],
     },
   ])
-  const buildPackage = packages.selected
 
-  if (buildPackage === 'all') {
-    buildPlugins()
+  if (packages.selected === 'all') {
+    for await (let packageDir of packageDirs) {
+      compile(packageDir)
+    }
   } else {
     compile(packages.selected)
   }

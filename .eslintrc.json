@@ -21,6 +21,7 @@
     "@typescript-eslint/no-explicit-any": 0,
     "@typescript-eslint/no-empty-interface": 0,
     "@typescript-eslint/no-empty-function": 0,
-    "no-async-promise-executor": 0
+    "no-async-promise-executor": 0,
+    "no-non-null-assertion": 0
   }
 }
