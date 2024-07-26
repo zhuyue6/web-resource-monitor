@@ -5,7 +5,11 @@
     "moduleResolution": "Node",
     "strict": true,
     "esModuleInterop": true,
-    "allowJs": true
+    "allowJs": true,
+    "baseUrl": ".",
+    "paths": {
+      "@web-resource-monitor/*": ["packages/*/src"]
+    }
   },
   "include": ["packages/**/*"],
   "exclude": ["node_modules"],

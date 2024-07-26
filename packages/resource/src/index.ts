@@ -1,19 +1,18 @@
-import { fileMatcherDefault, resourceTimeoutConfigDefault, type ResourceTimeoutConfig } from './resourceConfig'
-import { createListener } from './utils'
+import { fileMatcherDefault, resourceTimeoutConfigDefault, type ResourceTimeoutConfig } from './config'
+import { createListener } from '@web-resource-monitor/shared'
 
-// 获取资源类型
 function getType(
   entry: PerformanceEntry & {
     initiatorType?: string
   },
-  report: ReportInstance
+  resource: ResourceListener
 ) {
   let resourceType = ''
-  // 通过请求的资源名后缀类型判断
+  // Judging by the suffix type of the requested resource name
   const fileTypes = /([^\s.])*$/.exec(String(entry.name as string).replace(/\?\S*/, '')) 
   const fileType = fileTypes && fileTypes[0]
 
-  for (const [key, value] of Object.entries(report.fileMatcher)) {
+  for (const [key, value] of Object.entries(resource.fileMatcher)) {
     if (value.includes(fileType as any)) {
       resourceType = key
       break
@@ -23,7 +22,7 @@ function getType(
   return [fileType, resourceType]
 }
 
-interface ReportConfig {
+export interface ResourceReportConfig {
   fileMatcher: typeof fileMatcherDefault
   resourceTimeoutConfig: ResourceTimeoutConfig,
 }
@@ -37,17 +36,17 @@ interface Collection {
   entry: PerformanceEntry
 }
 
-interface ReportInstance extends ReportConfig {
+interface ResourceListener extends ResourceReportConfig {
   loadedList: Collection[]
   loadedTimeoutList: Collection[]
-  start?(): void
-  destory?(): void
-  on?(key: 'loaded' | 'collectTimeout', fn: (...rest: any[]) => void): void
-  off?(key: string): void
+  start(): void
+  destroy(): void
+  on(key: 'loaded' | 'loadedTimeout', fn: (...rest: any[]) => void): void
+  off(key: string): void
   emit(key: string, ...arg: any[]): void
 }
 
-function longReourceCollection(report: ReportInstance, fileType: string, resourceType: string, entry: PerformanceEntry, type='normal') {
+function longReourceCollection(report: ResourceListener, fileType: string, resourceType: string, entry: PerformanceEntry, type='normal') {
   const collect = {
     name: entry.name,
     fileType,
@@ -61,12 +60,13 @@ function longReourceCollection(report: ReportInstance, fileType: string, resourc
     entry
   })
   report.emit('loaded', collect, entry)
+
   if (type === 'timeout') {
-    report.emit('loadedTimeout', collect, entry)
     report.loadedTimeoutList.push({
       ...collect,
       entry
     })
+    report.emit('loadedTimeout', collect, entry)
   }
 }
 
@@ -84,43 +84,43 @@ function createPerformanceObserver(observerReactive: {[index: string]: (entry: P
 /**
  *
  * @param cb callback
- * @param reportConfig report config
+ * @param resourceConfig report config
  */
-
-export function createReport(reportConfig?: ReportConfig) {
+export function createResourceListener(resourceConfig?: ResourceReportConfig) {
   const listener = createListener()
-  const report: ReportInstance = {
-    resourceTimeoutConfig: { ...resourceTimeoutConfigDefault, ...reportConfig!.resourceTimeoutConfig} ,
-    fileMatcher: { ...fileMatcherDefault, ...reportConfig!.fileMatcher },
+  const resourceListener: ResourceListener = {
+    resourceTimeoutConfig: resourceConfig?.resourceTimeoutConfig ?? resourceTimeoutConfigDefault,
+    fileMatcher: resourceConfig?.fileMatcher ?? fileMatcherDefault,
     loadedList: [],
     loadedTimeoutList: [],
     on: listener.on,
     off: listener.off,
     emit: listener.emit,
-    ...reportConfig
+    start: () => {},
+    destroy: () => {}
   }
 
   const observerReactive = {
     resource(entry: PerformanceEntry) {
       // 资源加载监听
-      const [fileType, resourceType] = getType(entry, report)
-      for (const [resourceTypeKey, time] of Object.entries(report.resourceTimeoutConfig).reverse()) {
-        longReourceCollection(report, <string>fileType, <string>resourceType, entry)
+      const [fileType, resourceType] = getType(entry, resourceListener)
+      for (const [resourceTypeKey, time] of Object.entries(resourceListener.resourceTimeoutConfig).reverse()) {
+        longReourceCollection(resourceListener, <string>fileType, <string>resourceType, entry)
         if (resourceTypeKey === resourceType && entry.duration >= time) {
-          return longReourceCollection(report, <string>fileType, <string>resourceType,  entry, 'timeout')
+          return longReourceCollection(resourceListener, <string>fileType, <string>resourceType,  entry, 'timeout')
         }
       }
     },
   }
   let observer: null | PerformanceObserver = createPerformanceObserver(observerReactive)
 
-  report.start = () => {
+  resourceListener.start = () => {
     observer?.observe({ entryTypes: Object.keys(observerReactive) })
   }
-  report.destory = () => {
+  resourceListener.destroy = () => {
     observer?.disconnect()
     observer = null
   }
 
-  return report
+  return resourceListener
 }

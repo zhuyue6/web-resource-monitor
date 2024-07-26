@@ -15,8 +15,10 @@
   "scripts": {
     "prepare": "husky install",
     "lint-staged": "lint-staged --quiet",
-    "build": "node scripts/build.js",
+    "build": "node scripts/build.js core",
+    "build:custom": "node scripts/build.js",
     "release": "node scripts/release.js",
+    "example": "pnpm --filter @web-resource-monitor/example start",
     "test": "vitest"
   },
   "repository": {
@@ -32,6 +34,9 @@
     "./min": "./dist/index.min.js",
     "./resource": {
       "import": "./packages/resource/src/index.ts"
+    },
+    "./error": {
+      "import": "./packages/error/src/index.ts"
     }
   },
   "files": [
@@ -44,9 +49,9 @@
     "url": "https://github.com/zhuyue6/web-resource-monitor.git/issues"
   },
   "devDependencies": {
+    "@rollup/plugin-alias": "^5.1.0",
     "@rollup/plugin-commonjs": "^25.0.3",
     "@rollup/plugin-json": "^6.0.0",
-    "@rollup/plugin-node-resolve": "^15.1.0",
     "@rollup/plugin-terser": "^0.4.3",
     "@rollup/plugin-typescript": "^11.1.2",
     "@typescript-eslint/eslint-plugin": "^5.62.0",

@@ -7,6 +7,9 @@ import { compile } from './common.js'
 inquirer.registerPrompt('search-list', inquirerSearchList)
 
 async function main() {
+  if (process.argv[2]) {
+    return compile(process.argv[2])
+  }
   const packageDirs = readdirSync(resolve('packages'))
   const packages = await inquirer.prompt([
     {

@@ -4,7 +4,7 @@ const img = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'tiff', 'webp']
 const css = ['css', 'ttf']
 const script = ['js', 'vue', 'ts']
 
-export const fileMatcherDefault = {
+export const fileMatcherDefault: Record<string, string[]> = {
   audio,
   video,
   img,
@@ -12,15 +12,9 @@ export const fileMatcherDefault = {
   script
 }
 
-// 各资源加载的时长
+// The duration of loading each resource
 export interface ResourceTimeoutConfig {
-  script: number
-  css: number
-  xmlhttprequest: number
-  fetch: number
-  audio: number
-  video: number
-  img: number
+  [index: string]: number 
 }
 
 export const resourceTimeoutConfigDefault: ResourceTimeoutConfig = {

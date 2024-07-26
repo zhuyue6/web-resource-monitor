@@ -1,8 +1,8 @@
-import { createListener } from '../src/utils'
+import { createListener } from '../src'
 
 import { describe, it, expect } from 'vitest'
 
-describe('create: resource', () => {
+describe('utils', () => {
   it('listener function', () => {
     const listener = createListener()
     let data = 0

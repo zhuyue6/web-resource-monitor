@@ -1,5 +1,5 @@
 {
-  "name": "@web-resource-monitor/resource",
+  "name": "@web-resource-monitor/shared",
   "main": "./dist/index.js",
   "description": "Web resource loading monitoring, callback, reporting, etc, 前端监控资源加载上报",
   "version": "1.1.0",
@@ -27,8 +27,5 @@
     "dist",
     "package.json",
     "README.md"
-  ],
-  "dependencies": {
-    "@web-resource-monitor/shared": "workspace:^"
-  }
+  ]
 }

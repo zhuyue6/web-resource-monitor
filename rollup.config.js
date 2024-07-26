@@ -1,17 +1,27 @@
 import rollupTypescript from '@rollup/plugin-typescript'
 import rollupJson from '@rollup/plugin-json'
 import rollupCommonjs from '@rollup/plugin-commonjs'
-import rollupNodeResolve from '@rollup/plugin-node-resolve'
 import rollupTerser from '@rollup/plugin-terser'
+import rollupAlias from '@rollup/plugin-alias'
 import rollupDts from 'rollup-plugin-dts'
 import fs from 'fs-extra'
+import { fileURLToPath } from 'node:url'
+import path from 'node:path'
 import process from 'node:process'
+
+const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
 function getPlugins(dts = false, terser = false) {
   const tsconfig = fs.readJSONSync('./tsconfig.json')
+  const aliasKey = `@web-resource-monitor/${process.env.PACKAGENAME}`
   let plugins = [
     rollupCommonjs(),
     rollupJson(),
+    rollupAlias({
+      [aliasKey]: path.resolve(
+        __dirname,
+        `./packages/${process.env.PACKAGENAME}/src/index.ts`)
+    }),
     rollupTypescript(tsconfig.compilerOptions),
   ]
   if (terser) {
@@ -20,12 +30,7 @@ function getPlugins(dts = false, terser = false) {
   }
   if (dts) {
     plugins = [
-      rollupDts({
-        compilerOptions: {
-          preserveSymlinks: false,
-        },
-      }),
-      rollupNodeResolve(),
+      rollupDts(),
     ]
   }
 
@@ -64,7 +69,7 @@ export default [
       {
         file: `dist/index.min.js`,
         format: 'umd',
-        name: 'PACKAGE' + process.env.PACKAGENAME,
+        name: 'webResourceMonitor',
       },
     ],
     plugins: getPlugins(false, true),

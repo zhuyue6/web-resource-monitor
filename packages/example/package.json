@@ -1,8 +1,11 @@
 {
-  "name": "@web-resource-monitor/resource",
+  "name": "@web-resource-monitor/example",
   "main": "./dist/index.js",
-  "description": "Web resource loading monitoring, callback, reporting, etc, 前端监控资源加载上报",
+  "description": "example for Web resource loading monitoring",
   "version": "1.1.0",
+  "scripts": {
+    "start": "vite"
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -12,8 +15,8 @@
     "./min": {
       "require": "./dist/index.min.js"
     },
-    "./*": {
-      "import": "./*"
+    "./src": {
+      "import": "./src/index.ts"
     }
   },
   "bugs": {
@@ -28,7 +31,10 @@
     "package.json",
     "README.md"
   ],
+  "devDependencies": {
+    "vite": "^5.3.5"
+  },
   "dependencies": {
-    "@web-resource-monitor/shared": "workspace:^"
+    "@web-resource-monitor/core": "workspace:^"
   }
 }

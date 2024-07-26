@@ -1,5 +1,5 @@
 {
-  "name": "@web-resource-monitor/resource",
+  "name": "@web-resource-monitor/error",
   "main": "./dist/index.js",
   "description": "Web resource loading monitoring, callback, reporting, etc, 前端监控资源加载上报",
   "version": "1.1.0",
@@ -9,9 +9,7 @@
       "require": "./dist/index.js",
       "import": "./dist/index.esm.js"
     },
-    "./min": {
-      "require": "./dist/index.min.js"
-    },
+    "./min": "./dist/index.min.js",
     "./*": {
       "import": "./*"
     }
