@@ -1,6 +1,5 @@
 {
-  "name": "web-resource-monitor",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Web resource loading monitoring, callback, reporting, etc, 前端监控资源加载上报",
   "packageManager": "pnpm@7.32.0",
   "lint-staged": {
@@ -12,14 +11,19 @@
       "prettier --write"
     ]
   },
+  "private": true,
   "scripts": {
     "prepare": "husky install",
     "lint-staged": "lint-staged --quiet",
-    "build": "node scripts/build.js core",
+    "changeset": "changeset",
+    "version-packages": "changeset add && changeset version",
+    "build": "node scripts/build.js all",
     "build:custom": "node scripts/build.js",
-    "release": "node scripts/release.js",
-    "example": "pnpm --filter @web-resource-monitor/example start",
-    "test": "vitest"
+    "release": "pnpm version-packages && pnpm build && changeset publish",
+    "release:only": "changeset publish",
+    "start": "pnpm --filter @web-resource-monitor/example start",
+    "test": "vitest",
+    "preinstall": "npx only-allow pnpm"
   },
   "repository": {
     "type": "git",
@@ -49,6 +53,7 @@
     "url": "https://github.com/zhuyue6/web-resource-monitor.git/issues"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.27.7",
     "@rollup/plugin-alias": "^5.1.0",
     "@rollup/plugin-commonjs": "^25.0.3",
     "@rollup/plugin-json": "^6.0.0",

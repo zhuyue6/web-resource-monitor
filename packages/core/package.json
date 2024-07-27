@@ -1,8 +1,10 @@
 {
-  "name": "@web-resource-monitor/core",
+  "name": "web-resource-monitor",
   "main": "./dist/index.js",
   "description": "Web resource loading monitoring, callback, reporting, etc, 前端监控资源加载上报",
-  "version": "1.1.0",
+  "version": "1.2.0",
+  "author": "zhuyue",
+  "license": "ISC",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -16,12 +18,9 @@
       "import": "./*"
     }
   },
+  "repository": "http://github.com/zhuyue6/web-resource-monitor.git",
   "bugs": {
     "url": "https://github.com/zhuyue6/web-resource-monitor.git/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+http://github.com/zhuyue6/web-resource-monitor.git"
   },
   "files": [
     "dist",

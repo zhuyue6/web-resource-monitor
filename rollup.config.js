@@ -26,11 +26,12 @@ function getPlugins(dts = false, terser = false) {
   ]
   if (terser) {
     plugins.push(rollupTerser())
-    plugins.push(rollupNodeResolve())
   }
   if (dts) {
     plugins = [
-      rollupDts(),
+      rollupDts({
+        preserveSymlinks: false
+      }),
     ]
   }
 
@@ -43,7 +44,7 @@ export default [
     input,
     output: [
       {
-        file: `dist/index.esm.js`,
+        file: `./packages/${process.env.PACKAGENAME}/dist/index.esm.js`,
         format: 'es',
       },
       {
@@ -57,7 +58,7 @@ export default [
     input,
     output: [
       {
-        file: `dist/index.d.ts`,
+        file: `./packages/${process.env.PACKAGENAME}/dist/index.d.ts`,
         format: 'es',
       },
     ],
@@ -67,7 +68,7 @@ export default [
     input,
     output: [
       {
-        file: `dist/index.min.js`,
+        file: `./packages/${process.env.PACKAGENAME}/dist/index.min.js`,
         format: 'umd',
         name: 'webResourceMonitor',
       },
