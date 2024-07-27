@@ -2,7 +2,7 @@
   "name": "@web-resource-monitor/example",
   "main": "./dist/index.js",
   "description": "example for Web resource loading monitoring",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "scripts": {
     "start": "vite"
   },
@@ -35,7 +35,7 @@
     "vite": "^5.3.5"
   },
   "dependencies": {
-    "@web-resource-monitor/core": "workspace:^"
+    "web-resource-monitor": "workspace:^"
   },
   "private": true
 }

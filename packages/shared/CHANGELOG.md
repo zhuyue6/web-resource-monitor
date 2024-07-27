@@ -1,5 +1,11 @@
 # @web-resource-monitor/shared
 
+## 1.2.1
+
+### Patch Changes
+
+- 更新 readme
+
 ## 1.2.0
 
 ### Minor Changes
