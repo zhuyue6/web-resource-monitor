@@ -1,9 +1,9 @@
 ## web-resource-monitor
-Web resource loading monitoring, callback, reporting, etc.  
-前端监控资源加载上报
+Web resource loading monitoring, js error callback, reporting, etc.  
+捕获前端监控资源加载和异常错误上报
   
-If a long resource loading time triggers a callback, you can call HTTP to report the resource file with a long loading time.  
-如果资源加载长会触发回调，此时可以调用http上报长加载时长的资源文件
+If a long resource loading time triggers a callback, HTTP can be called to report the resource file with a long loading time, and the file type and timeout settings can be customized
+如果资源加载长会触发回调，此时可以调用http上报长加载时长的资源文件，并可以自定义文件类型和超时设定
 
 Bugs or features can be raised here:  
 有问题或者扩展功能可以讨论：  
