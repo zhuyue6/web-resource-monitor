@@ -48,7 +48,7 @@ export default [
         format: 'es',
       },
       {
-        file: `dist/index.js`,
+        file: `./packages/${process.env.PACKAGENAME}/dist/index.js`,
         format: 'cjs',
       },
     ],
