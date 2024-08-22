@@ -1,9 +1,9 @@
 ## web-resource-monitor
-Web resource loading monitoring, js error callback, reporting, etc.  
-捕获前端监控资源加载和异常错误上报
+Web resource loading monitoring, js error listener, callback, reporting, etc.  
+前端监控资源加载上报，js错误捕获
   
-If a long resource loading time triggers a callback, HTTP can be called to report the resource file with a long loading time, and the file type and timeout settings can be customized
-如果资源加载长会触发回调，此时可以调用http上报长加载时长的资源文件，并可以自定义文件类型和超时设定
+If a long resource loading time triggers a callback, you can call HTTP to report the resource file with a long loading time.  
+如果资源加载长会触发回调，此时可以调用http上报长加载时长的资源文件
 
 Bugs or features can be raised here:  
 有问题或者扩展功能可以讨论：  
@@ -38,16 +38,31 @@ script | 100
 if you want to custom
 
 ```typescipt
-  // use a new media attr
+  
+  // get default config
+  const { 
+    fileMatcherDefault,
+    resourceTimeoutConfigDefault 
+  } = getResourceConfigDefault()
+
+ // use a new media attr, will replace default,
+ // if you set  fileMatcher: {
+ //   media: ['mp4'],
+ //   video: ['mp4']
+  //  }
+  //  load aa.mp4 will get twice
+
   createResourceListener({
     resourceTimeoutConfig: {
+      ...resourceTimeoutConfigDefault,
       media: 1000
     },
     fileMatcher: {
+      ...fileMatcherDefault,
       media: ['mp4', 'mp3', 'jpg']
     }
   })
-  // reset a script, will merge default
+  // reset a script, will replace default
   createResourceListener({
     resourceTimeoutConfig: {
       script: 1000

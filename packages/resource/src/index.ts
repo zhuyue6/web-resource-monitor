@@ -7,15 +7,14 @@ function getType(
   },
   resource: ResourceListener
 ) {
-  let resourceType = ''
+  const resourceType: string[] = []
   // Judging by the suffix type of the requested resource name
   const fileTypes = /([^\s.])*$/.exec(String(entry.name as string).replace(/\?\S*/, '')) 
   const fileType = fileTypes && fileTypes[0]
 
   for (const [key, value] of Object.entries(resource.fileMatcher)) {
     if (value.includes(fileType as any)) {
-      resourceType = key
-      break
+      resourceType.push(key)
     }
   }
 
@@ -85,6 +84,7 @@ function createPerformanceObserver(observerReactive: {[index: string]: (entry: P
  *
  * @param cb callback
  * @param resourceConfig report config
+ * @returns ResourceListener
  */
 export function createResourceListener(resourceConfig?: ResourceReportConfig) {
   const listener = createListener()
@@ -102,12 +102,11 @@ export function createResourceListener(resourceConfig?: ResourceReportConfig) {
 
   const observerReactive = {
     resource(entry: PerformanceEntry) {
-      // 资源加载监听
       const [fileType, resourceType] = getType(entry, resourceListener)
       for (const [resourceTypeKey, time] of Object.entries(resourceListener.resourceTimeoutConfig).reverse()) {
-        longReourceCollection(resourceListener, <string>fileType, <string>resourceType, entry)
-        if (resourceTypeKey === resourceType && entry.duration >= time) {
-          return longReourceCollection(resourceListener, <string>fileType, <string>resourceType,  entry, 'timeout')
+        if (resourceType?.includes(resourceTypeKey)) {
+          const timeout = entry.duration >= time ? 'timeout' : undefined
+          longReourceCollection(resourceListener, <string>fileType, <string>resourceTypeKey,  entry, timeout)
         }
       }
     },
@@ -123,4 +122,14 @@ export function createResourceListener(resourceConfig?: ResourceReportConfig) {
   }
 
   return resourceListener
+}
+
+/**
+ * @returns  {fileMatcherDefault, resourceTimeoutConfigDefault}
+ */
+export function getResourceConfigDefault() {
+  return {
+    fileMatcherDefault,
+    resourceTimeoutConfigDefault
+  }
 }

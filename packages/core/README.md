@@ -38,16 +38,32 @@ script | 100
 if you want to custom
 
 ```typescipt
-  // use a new media attr
+  
+  // get default config
+  const { 
+    fileMatcherDefault,
+    resourceTimeoutConfigDefault 
+  } = getResourceConfigDefault()
+
+ // use a new media attr, will replace default,
+ // if you set  fileMatcher: {
+ //   media: ['mp4'],
+ //   video: ['mp4']
+  //  }
+  //  load aa.mp4 will get twice
+
+
   createResourceListener({
     resourceTimeoutConfig: {
+      ...resourceTimeoutConfigDefault,
       media: 1000
     },
     fileMatcher: {
+      ...fileMatcherDefault,
       media: ['mp4', 'mp3', 'jpg']
     }
   })
-  // reset a script, will merge default
+  // reset a script, will replace default
   createResourceListener({
     resourceTimeoutConfig: {
       script: 1000

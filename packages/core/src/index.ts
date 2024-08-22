@@ -1,6 +1,6 @@
-import { createResourceListener, type ResourceReportConfig } from '@web-resource-monitor/resource'
+import { createResourceListener, getResourceConfigDefault, type ResourceReportConfig } from '@web-resource-monitor/resource'
 import { createErrorListener } from '@web-resource-monitor/error'
-export { createResourceListener, createErrorListener }
+export { createResourceListener, createErrorListener, getResourceConfigDefault }
 
 /**
  * @deprecated Please use createResourceListener instead.
@@ -36,5 +36,3 @@ export function createMonitor(params?: CreateMonitorParams) {
   }
   return monitor
 }
-
-
