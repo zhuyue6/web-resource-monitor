@@ -39,6 +39,7 @@ function getPlugins(dts = false, terser = false) {
 }
 
 const input = `./packages/${process.env.PACKAGENAME}/src/index.ts`
+
 export default [
   {
     input,
